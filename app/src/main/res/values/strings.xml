@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CellphoneS</string>
+
+    <string name="title_section1">Điện thoại</string>
+    <string name="title_section2">Máy tính bảng</string>
+    <string name="title_section3">Mac</string>
+    <string name="title_section4">Phụ kiện</string>
+    <string name="title_section5">Trả góp</string>
+    <string name="title_section6">Hàng cũ</string>
+    <string name="title_section7">Quà Tặng</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
