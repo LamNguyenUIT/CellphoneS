@@ -251,9 +251,24 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+
+        if (item.getItemId() == R.id.action_select_HN) {
+            Toast.makeText(getActivity(), "Hà Nội", Toast.LENGTH_SHORT).show();
             return true;
+        }
+
+        if (item.getItemId() == R.id.action_select_HCM) {
+            Toast.makeText(getActivity(), "Hồ Chí Minh", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (item.getItemId() == R.id.action_select_company) {
+            Toast.makeText(getActivity(), "Chọn hãng sản xuất", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+
+        if (item.getItemId() == R.id.action_search) {
+            Toast.makeText(getActivity(), "Tìm kiếm", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);

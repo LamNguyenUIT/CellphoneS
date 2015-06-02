@@ -1,8 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_example" android:title="@string/action_example"
+    <item
+        android:id="@+id/action_search"
+        android:title="Tìm kiếm"
         app:showAsAction="withText|ifRoom" />
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item
+        android:id="@+id/action_select_company"
+        android:title="Chọn hãng"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_select_HN"
+        android:title="Hà Nội"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_select_HCM"
+        android:title="Hồ Chí Minh"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
