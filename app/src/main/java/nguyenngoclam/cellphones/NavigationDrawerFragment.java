@@ -1,5 +1,7 @@
 package nguyenngoclam.cellphones;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -11,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -263,12 +267,54 @@ public class NavigationDrawerFragment extends Fragment {
         }
         if (item.getItemId() == R.id.action_select_company) {
             Toast.makeText(getActivity(), "Chọn hãng sản xuất", Toast.LENGTH_SHORT).show();
+            final CharSequence[] items = {"Apple", "Samsung", "Microsoft", "HTC", "LG"};
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Chọn hãng sản xuất");
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    Toast.makeText(getActivity(), items[item], Toast.LENGTH_SHORT).show();
+                }
+            });
+            // tạo mới 1 alert dialog
+            AlertDialog alertDialog = builder.create();
+            // hiển thị Alert Dialog lên
+            alertDialog.show();
+
             return true;
         }
 
 
         if (item.getItemId() == R.id.action_search) {
             Toast.makeText(getActivity(), "Tìm kiếm", Toast.LENGTH_SHORT).show();
+
+            LayoutInflater li = getActivity().getLayoutInflater();
+            View customDialogView = li.inflate(R.layout.search_box, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder.setView(customDialogView);
+
+            final EditText userInput = (EditText) customDialogView.findViewById(R.id.search);
+
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Tìm kiếm",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // tv.setText("Username: " + userInput.getText()+"\nPassword:"+ passInput.getText());
+                            Toast.makeText(getActivity(), "Viết hàm tìm kiếm vào chỗ này này", Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+            // tạo mới 1 alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // hiển thị Alert Dialog lên
+            alertDialog.show();
+
         }
 
         return super.onOptionsItemSelected(item);
