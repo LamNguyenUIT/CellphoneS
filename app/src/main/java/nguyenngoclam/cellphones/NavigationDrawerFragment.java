@@ -1,7 +1,10 @@
 package nguyenngoclam.cellphones;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -13,7 +16,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -298,9 +300,16 @@ public class NavigationDrawerFragment extends Fragment {
             alertDialogBuilder.setCancelable(false).setPositiveButton("Tìm kiếm",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            MainActivity pros = new MainActivity();
+                            ProgressDialog pro = new ProgressDialog(pros);
+                            pro.setMessage("aaaaa");
+                            pro.show();
+                            //startLoad();
+                           // pro.progressDia.show();
+                          // new MainActivity.ReadJSONFeedTask().execute("http://lucstudio.com/json.php?id=Search&q=nokia&l=1");
                             // tv.setText("Username: " + userInput.getText()+"\nPassword:"+ passInput.getText());
-                            Toast.makeText(getActivity(), "Viết hàm tìm kiếm vào chỗ này này", Toast.LENGTH_SHORT).show();
-
+                            //Toast.makeText(getActivity(), "Viết hàm tìm kiếm vào chỗ này này", Toast.LENGTH_SHORT).show();
+                           // ProgressDialog pro = new ProgressDialog(MainActivity.class.);
                         }
                     })
                     .setNegativeButton("Cancel",
@@ -319,7 +328,11 @@ public class NavigationDrawerFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-
+    public void startLoad()
+    {
+       // MainActivity MAINs = new MainActivity();
+       // MAINs. new ReadJSONFeedTask().execute("http://lucstudio.com/json.php?id=Search&q=nokia&l=1");
+    }
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app
      * 'context', rather than just what's in the current screen.
