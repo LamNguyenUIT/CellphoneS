@@ -55,7 +55,7 @@ public class CustomListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+       // holder = (ViewHolder) convertView.getTag();
         ListItem newsItem = (ListItem) listData.get(position);
         holder.nameView.setText(newsItem.getName());
         holder.priceView.setText(newsItem.getPrice());

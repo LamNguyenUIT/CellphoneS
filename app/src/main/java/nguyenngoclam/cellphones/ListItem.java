@@ -27,6 +27,11 @@ public class ListItem {
     public void setLinks(String links) {
         this.links = links;
     }
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    public  void setName(String name){this.name = name;}
+    public  void setPrice(String price){this.price = price;}
     public String getUrl() {
         return url;
     }
@@ -34,21 +39,9 @@ public class ListItem {
     {
         return name;
     }
-    public  String getPrice(){
-        return price;
-    }
-
-    public String getAva() {
-        return ava;
-    }
-
+    public  String getPrice(){return price; }
+    public String getAva() {return ava;    }
     public String getLinks() {
         return links;
     }
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    public  void setName(String name){this.name = name;}
-    public  void setPrice(String price){this.price = price;}
-
 }
