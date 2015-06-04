@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    ArrayList<ListItem> listData = new ArrayList<ListItem>();
+    public ArrayList<ListItem> listData = new ArrayList<ListItem>();
     ProgressDialog progressDia;
     public String readJSONFeed(String URL) {
         StringBuilder stringBuilder = new StringBuilder();
