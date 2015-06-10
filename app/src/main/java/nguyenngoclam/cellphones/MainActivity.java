@@ -1,7 +1,9 @@
 package nguyenngoclam.cellphones;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DebugUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,10 +23,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -42,8 +48,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -54,90 +59,17 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    public ArrayList<ListItem> listData = new ArrayList<ListItem>();
-    ProgressDialog progressDia;
-    public String readJSONFeed(String URL) {
-        StringBuilder stringBuilder = new StringBuilder();
-        HttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(URL);
-        try {
-            HttpResponse response = client.execute(httpGet);
-            StatusLine statusLine = response.getStatusLine();
-            int statusCode = statusLine.getStatusCode();
-            if (statusCode == 200) {
-                HttpEntity entity = response.getEntity();
-                InputStream content = entity.getContent();
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(content));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-            } else {
-                Log.e("JSON", "Failed to download file");
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stringBuilder.toString();
-    }
-    private class ReadJSONFeedTask extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-            return readJSONFeed(urls[0]);
-        }
-
-        protected void onPostExecute(String result) {
-            try {
-                JSONArray jsonArray = new JSONArray(result);
-                Log.i("JSON", "Number of surveys in feed: " +
-                        jsonArray.length());
-
-                //---print out the content of the json feed---
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    //Toast.makeText(getBaseContext(), jsonObject.getString("image") + " - " + jsonObject.getString("name"),
-                    //Toast.LENGTH_SHORT).show();
-                    ListItem newsData = new ListItem();
-                    newsData.setUrl(jsonObject.getString("image"));
-                    newsData.setName(jsonObject.getString("name"));
-                    newsData.setPrice(jsonObject.getString("price"));
-                    newsData.setAva(jsonObject.getString("ava"));
-                    newsData.setLinks(jsonObject.getString("url"));
-                    newsData.setColor(jsonObject.getString("color"));
-                    listData.add(newsData);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            progressDia.cancel();
-            //progressDia.setCancelable(true);
-            final ListView listView = (ListView) findViewById(R.id.custom_list);
-            listView.setAdapter(new CustomListAdapter(MainActivity.this, listData));
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                    ListItem newsData = (ListItem) listView.getItemAtPosition(position);
-                    // Toast.makeText(MainActivity.this, newsData.getUrl(), Toast.LENGTH_LONG).show();
-                    Uri uri = Uri.parse(newsData.getLinks());
-                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
-                }
-            });
-        }
-    }
+    //JsonReader j = new JsonReader();
+    ReadJSONFeedTask j;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        progressDia = new ProgressDialog(MainActivity.this);
-        progressDia.setMessage("Load data....");
-        progressDia.setCanceledOnTouchOutside(false);
+        j = new ReadJSONFeedTask(this);
+        j.setLocal("hcm");
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -153,52 +85,98 @@ public class MainActivity extends ActionBarActivity
                 .commit();
     }
     public void onSectionAttached(int number) {
+        j = new ReadJSONFeedTask(this);
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
-                progressDia.show();
-                new ReadJSONFeedTask().execute("http://lucstudio.com/json.php?id=Phone&l=1");
+                j.execute("http://lucstudio.com/json.php?id=Phone&l=" + j.getLocal());
                 break;
             case 2:
+
+                // Cai cho nay khi tao nhan chon menu, nó se goi cai ham load ben class kia, thay doi listdata rui gan vao
                 mTitle = getString(R.string.title_section2);
-                progressDia.show();
-                new ReadJSONFeedTask().execute("http://lucstudio.com/json.php?id=Tablet&l=1");
+                j.execute("http://lucstudio.com/json.php?id=Tablet&l=" + j.getLocal());
                // progressDia.cancel();
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
-                progressDia.show();
-                new ReadJSONFeedTask().execute("http://lucstudio.com/json.php?id=Mac&l=1");
+                j.execute("http://lucstudio.com/json.php?id=Mac&l=1" + j.getLocal());
                 break;
             case 4:
                 mTitle = getString(R.string.title_section4);
-                progressDia.show();
-                new ReadJSONFeedTask().execute("http://lucstudio.com/json.php?id=Phu+Kien&l=1");
+                j.execute("http://lucstudio.com/json.php?id=Phu+Kien&l=" + j.getLocal());
                 break;
 
             case 5:
                 mTitle = getString(R.string.title_section5);
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Trả góp");
 
+                WebView wv = new WebView(this);
+                wv.loadUrl("http://cellphones.com.vn/mua-hang-tra-gop");
+                wv.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+
+                        return true;
+                    }
+                });
+
+                alert.setView(wv);
+                alert.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
                 break;
             case 6:
                 mTitle = getString(R.string.title_section6);
-
+                j.execute("http://lucstudio.com/json.php?id=Hang+Cu&l=" + j.getLocal());
                 break;
             case 7:
                 mTitle = getString(R.string.title_section7);
+                AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
+                alert2.setTitle("Quà tặng");
 
+                WebView wv2 = new WebView(this);
+                wv2.loadUrl("http://cellphones.com.vn/qua-tang");
+                wv2.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+
+                        return true;
+                    }
+                });
+
+                alert2.setView(wv2);
+                alert2.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                alert2.show();
                 break;
         }
-    }
 
+       // (listView.getAdapter()).notifyDataSetChanged();
+
+        //listView.refreshDrawableState();
+       // j.progressDia.cancel();
+    }
+    public void onTaskFinished(String result) {
+        // Process the json result here how you need.
+    }
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {

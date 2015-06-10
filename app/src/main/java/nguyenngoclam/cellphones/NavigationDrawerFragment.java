@@ -63,8 +63,12 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    ReadJSONFeedTask j;
+    Activity contextCha;
 
-    public NavigationDrawerFragment() {
+    public NavigationDrawerFragment()
+    {
+       // contextCha=ctx;
     }
 
     @Override
@@ -83,6 +87,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
+        j = new ReadJSONFeedTask(contextCha);
     }
 
     @Override
@@ -214,6 +219,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        contextCha = activity;
         try {
             mCallbacks = (NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {
@@ -260,11 +266,13 @@ public class NavigationDrawerFragment extends Fragment {
 
         if (item.getItemId() == R.id.action_select_HN) {
             Toast.makeText(getActivity(), "Hà Nội", Toast.LENGTH_SHORT).show();
+            j.setLocal("hn");
             return true;
         }
 
         if (item.getItemId() == R.id.action_select_HCM) {
             Toast.makeText(getActivity(), "Hồ Chí Minh", Toast.LENGTH_SHORT).show();
+            j.setLocal("hcm");
             return true;
         }
         if (item.getItemId() == R.id.action_select_company) {
@@ -276,8 +284,13 @@ public class NavigationDrawerFragment extends Fragment {
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     Toast.makeText(getActivity(), items[item], Toast.LENGTH_SHORT).show();
+                    j.execute("http://lucstudio.com/json.php?id="+Uri.encode(items[item].toString())+"&l="+j.getLocal());
+
                 }
             });
+
+
+
             // tạo mới 1 alert dialog
             AlertDialog alertDialog = builder.create();
             // hiển thị Alert Dialog lên
@@ -300,16 +313,7 @@ public class NavigationDrawerFragment extends Fragment {
             alertDialogBuilder.setCancelable(false).setPositiveButton("Tìm kiếm",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            MainActivity pros = new MainActivity();
-                            ProgressDialog pro = new ProgressDialog(pros);
-                            pro.setMessage("aaaaa");
-                            pro.show();
-                            //startLoad();
-                           // pro.progressDia.show();
-                          // new MainActivity.ReadJSONFeedTask().execute("http://lucstudio.com/json.php?id=Search&q=nokia&l=1");
-                            // tv.setText("Username: " + userInput.getText()+"\nPassword:"+ passInput.getText());
-                            //Toast.makeText(getActivity(), "Viết hàm tìm kiếm vào chỗ này này", Toast.LENGTH_SHORT).show();
-                           // ProgressDialog pro = new ProgressDialog(MainActivity.class.);
+                          j.execute("http://lucstudio.com/json.php?id=Search&q="+Uri.encode(userInput.getText().toString())+"&l="+j.getLocal());
                         }
                     })
                     .setNegativeButton("Cancel",
