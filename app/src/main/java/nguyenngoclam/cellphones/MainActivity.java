@@ -89,23 +89,23 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_section1);
-                j.execute("http://138.91.249.208/json.php?id=Phone&l=" + j.getLocal());
+                j.execute("http://181.224.139.80/~lucstudi/json.php?id=Phone&l=" + j.getLocal());
                 break;
             case 2:
             ///
 
                 // Cai cho nay khi tao nhan chon menu, nó se goi cai ham load ben class kia, thay doi listdata rui gan vao
                 mTitle = getString(R.string.title_section2);
-                j.execute("http://138.91.249.208/json.php?id=Tablet&l=" + j.getLocal());
+                j.execute("http://181.224.139.80/~lucstudi/json.php?id=Tablet&l=" + j.getLocal());
                // progressDia.cancel();
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
-                j.execute("http://138.91.249.208/json.php?id=Mac&l=1" + j.getLocal());
+                j.execute("http://181.224.139.80/~lucstudi/json.php?id=Mac&l=1" + j.getLocal());
                 break;
             case 4:
                 mTitle = getString(R.string.title_section4);
-                j.execute("http://138.91.249.208/json.php?id=Phu+Kien&l=" + j.getLocal());
+                j.execute("http://181.224.139.80/~lucstudi/json.php?id=Phu+Kien&l=" + j.getLocal());
                 break;
 
             case 5:
@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 break;
             case 6:
                 mTitle = getString(R.string.title_section6);
-                j.execute("http://138.91.249.208/json.php?id=Hang+Cu&l=" + j.getLocal());
+                j.execute("http://181.224.139.80/~lucstudi/json.php?id=Hang+Cu&l=" + j.getLocal());
                 break;
             case 7:
                 mTitle = getString(R.string.title_section7);

@@ -284,7 +284,7 @@ public class NavigationDrawerFragment extends Fragment {
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     Toast.makeText(getActivity(), items[item], Toast.LENGTH_SHORT).show();
-                    j.execute("http://138.91.249.208/json.php?id="+Uri.encode(items[item].toString())+"&l="+j.getLocal());
+                    j.execute("http://181.224.139.80/~lucstudi/json.php?id="+Uri.encode(items[item].toString())+"&l="+j.getLocal());
 
                 }
             });
@@ -313,7 +313,7 @@ public class NavigationDrawerFragment extends Fragment {
             alertDialogBuilder.setCancelable(false).setPositiveButton("Tìm kiếm",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                          j.execute("http://138.91.249.208/json.php?id=Search&q="+Uri.encode(userInput.getText().toString())+"&l="+j.getLocal());
+                          j.execute("http://181.224.139.80/~lucstudi/json.php?id=Search&q="+Uri.encode(userInput.getText().toString())+"&l="+j.getLocal());
                         }
                     })
                     .setNegativeButton("Cancel",
@@ -335,7 +335,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void startLoad()
     {
        // MainActivity MAINs = new MainActivity();
-       // MAINs. new ReadJSONFeedTask().execute("http://138.91.249.208/json.php?id=Search&q=nokia&l=1");
+       // MAINs. new ReadJSONFeedTask().execute("http://181.224.139.80/~lucstudi/json.php?id=Search&q=nokia&l=1");
     }
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app
