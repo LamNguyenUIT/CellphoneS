@@ -92,8 +92,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 j.execute("http://181.224.139.80/~lucstudi/json.php?id=Phone&l=" + j.getLocal());
                 break;
             case 2:
-            ///
-
                 // Cai cho nay khi tao nhan chon menu, nó se goi cai ham load ben class kia, thay doi listdata rui gan vao
                 mTitle = getString(R.string.title_section2);
                 j.execute("http://181.224.139.80/~lucstudi/json.php?id=Tablet&l=" + j.getLocal());

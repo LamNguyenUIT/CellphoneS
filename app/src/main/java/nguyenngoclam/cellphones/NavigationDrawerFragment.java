@@ -323,8 +323,7 @@ public class NavigationDrawerFragment extends Fragment {
                                 }
                             });
 
-            // tạo mới 1 alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
+           AlertDialog alertDialog = alertDialogBuilder.create();
             // hiển thị Alert Dialog lên
             alertDialog.show();
 
